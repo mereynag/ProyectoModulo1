@@ -27,11 +27,12 @@ function updateGame() {
       }    
   }*/
 
-  const $canvas = document.querySelector("canvas")
+const $canvas = document.querySelector("canvas")
 const ctx = $canvas.getContext("2d")
 const gravity = 0.98
 const friction = 0.9
-const keys = []
+let keys = []
+let platforms = []
 
 class Board{
     constructor(){
@@ -60,9 +61,11 @@ class Character {
     this.height = 65
     this.velX = 0
     this.velY = 0
-    this.jumpStrength = 12
+    this.speed = 5
+    this.jumpStrength = 20
     this.jumps = 0
     this.jumping = false
+    this.grounded = false
     this.img = new Image()
     this.img.src = './images/P1_Character.png'
     this.img.onload = () => {
@@ -88,28 +91,64 @@ class Character {
     this.velX *= friction
   }
   jump() {
-    console.log(this.jumps)
-    this.jumping = false
-    if (this.jumps >= 10) {
+
+    //Flappy Boy
+    /*this.jumping = false
+    if (this.jumps >= 5) {
       this.jumping = true
       
-    }
+    }*/
     if (!this.jumping) {
+      this.velY = -this.jumpStrength
+      this.jumping = true
+    }
+    /*if (!this.jumping) {
       this.jumps++
       this.velY = -this.jumpStrength
-    }
+    }*/
   }
 }
+
+//Platforms
+platforms.push({
+  x: 500,
+  y: 550,
+  width: 100,
+  height: 20
+})
+
+platforms.push({
+  x: 200,
+  y: 400,
+  width: 100,
+  height: 20
+})
+
+platforms.push({
+  x: 500,
+  y: 250,
+  width: 100,
+  height: 20
+})
+
+platforms.push({
+  x: 200,
+  y: 100,
+  width: 100,
+  height: 20
+})
 
 const board = new Board()
 const p1 = new Character(320, 500)
 
 function update() {
-  checkKeys()
-  p1.changePos()
   clearCanvas()
   board.draw()
   p1.draw()
+  p1.changePos()
+  drawPlatforms()
+  checkKeys()
+  bounds()
 }
 
 function clearCanvas() {
@@ -121,7 +160,16 @@ setInterval(update, 1000 / 60)
 //control
 
 function checkKeys() {
-  if (keys["ArrowUp"]) {
+    if (keys[32] || keys[38]) {
+      p1.jump()
+    }
+    if (keys[37]) {
+      p1.velX--
+    }
+    if (keys[39]) {
+      p1.velX++
+    }
+  /*if (keys["ArrowUp"]) {
     p1.jump()
   }
   if (keys["ArrowLeft"]) {
@@ -129,27 +177,79 @@ function checkKeys() {
   }
   if (keys["ArrowRight"]) {
     p1.velX++
-  }
+  }*/
 }
-
+document.addEventListener("keydown", event => {
+  keys[event.keyCode] = true
+})
+document.addEventListener("keyup", event => {
+  keys[event.keyCode] = false
+})
+/*
 document.onkeydown = e => {
   keys[e.key] = true
 }
 
 document.onkeyup = e => {
   keys[e.key] = false
+}*/
+
+// -------------Plataformas y colision--------------
+function drawPlatforms() {
+  ctx.fillStyle = "#333333"
+  platforms.forEach(platform => {
+    ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
+  })
 }
 
-// document.onkeydown = e => {
-//   console.log(e.key)
-//   switch (e.key) {
-//     case "ArrowUp":
-//       return p1.jump()
-//     case "ArrowLeft":
-//       return p1.velX--
-//     case "ArrowRight":
-//       return p1.velX++
-//     default:
-//       break
-//   }
-// }
+function bounds() {
+  p1.grounded = false
+  platforms.forEach(platform => {
+    var direction = collisionCheck(p1, platform)
+    if (direction == "left" || direction == "right") {
+      p1.velX = 0
+    } else if (direction == "bottom") {
+      p1.jumping = false
+      p1.grounded = true
+    } else if (direction == "top") {
+      p1.velY *= -1
+    }
+  })
+
+  if (p1.grounded) {
+    p1.velY = 0
+  }
+}
+// Colision para plataformas
+function collisionCheck(char, plat) {
+  var vectorX = char.x + char.width / 2 - (plat.x + plat.width / 2)
+  var vectorY = char.y + char.height / 2 - (plat.y + plat.height / 2)
+
+  var halfWidths = char.width / 2 + plat.width / 2
+  var halfHeights = char.height / 2 + plat.height / 2
+
+  var collisionDirection = null
+
+  if (Math.abs(vectorX) < halfWidths && Math.abs(vectorY) < halfHeights) {
+    var offsetX = halfWidths - Math.abs(vectorX)
+    var offsetY = halfHeights - Math.abs(vectorY)
+    if (offsetX < offsetY) {
+      if (vectorX > 0) {
+        collisionDirection = "left"
+        char.x += offsetX
+      } else {
+        collisionDirection = "right"
+        char.x -= offsetX
+      }
+    } else {
+      if (vectorY > 0) {
+        collisionDirection = "top"
+        char.y += offsetY
+      } else {
+        collisionDirection = "bottom"
+        char.y -= offsetY
+      }
+    }
+  }
+  return collisionDirection
+}
