@@ -46,8 +46,12 @@ class Board{
         this.draw()}
     }
     draw(){
-        // if(this.y >$canvas.height) this.y = 0
-        // this.y++
+         //if(this.y > $canvas.height) this.y = 0
+        if(p1.grounded){
+          this.y+= 0.5
+          p1.grounded = false
+        }
+
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
         //ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
     }
