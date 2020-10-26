@@ -1,19 +1,20 @@
-
-
 class Board{
     constructor(){
-      this.x = 0
-      this.y = 0
-      this.width = $canvas.width
-      this.height = $canvas.height
-      this.img = new Image()
-      this.img.src = './images/P1_Fondo.jpg'
+    this.x = 0
+    this.y = 0
+    this.width = $canvas.width
+    this.height = 5000
+    this.img = new Image()
+    this.img.src = './images/P1_Fondo.jpg'
+    this.img.onload = () => {
+        // console.log(this)
+        this.draw()}
     }
     draw(){
-      if(this.y >$canvas.height) this.y = 0
-    this.y++
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-   // ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
+        //if(this.y >$canvas.height) this.y = 0
+        //this.y++
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    // ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
     }
   }
 
@@ -25,9 +26,12 @@ class Board{
       this.x = x
       this.y = y
       this.width = 30
-      this.height = 48
+      this.height = 5000
       this.img = new Image()
       this.img.src = './images/P1_Character.png'
+      this.img.onload = () => {
+        this.draw()
+      }
     }
     draw(){
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
@@ -39,14 +43,14 @@ class Board{
       this.x += 5
     }
 
-    isTouching(obstacle) {
+    /*isTouching(obstacle) {
       return (
         this.x < obstacle.x + obstacle.width &&
         this.x + this.width > obstacle.x &&
         this.y < obstacle.y + obstacle.height &&
         this.y + this.height > obstacle.y
       )
-    }
+    }*/
   }
 
   const board = new Board()

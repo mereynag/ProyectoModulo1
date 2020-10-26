@@ -14,8 +14,9 @@ function updateGame() {
       clearCanvas()
       //checkCollitions()
       board.draw()
-      drawObstacles()
       player.draw()  
+      //drawObstacles()
+      
       //printScore()
   }    
   }
