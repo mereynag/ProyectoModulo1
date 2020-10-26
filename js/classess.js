@@ -1,32 +1,33 @@
 class Board{
     constructor(){
     this.x = 0
-    this.y = 0
+    this.y = -4300
     this.width = $canvas.width
     this.height = 5000
     this.img = new Image()
     this.img.src = './images/P1_Fondo.jpg'
     this.img.onload = () => {
-        // console.log(this)
         this.draw()}
     }
     draw(){
-        //if(this.y >$canvas.height) this.y = 0
-        //this.y++
+        // if(this.y >$canvas.height) this.y = 0
+        // this.y++
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    // ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
+        //ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
     }
   }
-
-  
-
   
   class Player {
     constructor(x,y){
       this.x = x
       this.y = y
-      this.width = 30
-      this.height = 5000
+      this.width = 50
+      this.height = 65
+      this.velY = 0
+      this.velX = 0
+      this.jumpS = 10
+      this.jumps = 0
+      this.jumping = false
       this.img = new Image()
       this.img.src = './images/P1_Character.png'
       this.img.onload = () => {
@@ -34,14 +35,46 @@ class Board{
       }
     }
     draw(){
-      ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+
+        /*if (this.y > 580) {
+            this.y = 580
+            this.jumps = 0
+            this.jumping = false
+        }*/
+        
+        
+        if (this.y > $canvas.height - this.height) {
+            this.y = $canvas.height - this.height
+            this.jumps = 0
+            this.jumping = false
+        }
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height)    
     }
-    moveLeft(){
-      this.x -= 5
+
+    jump() {
+        console.log(this.jumps)
+        this.jumping = false
+        if (this.jumps >= 5) {
+            this.jumping = true
+        }
+            if (!this.jumping) {
+        this.jumps++
+        this.velY = -this.jumpStrength
     }
-    moveRight(){
-      this.x += 5
     }
+
+    changePos() {
+        this.y += this.velY
+        this.velY += gravity
+        this.x += this.velX
+        this.velX *= friction
+    }
+    // moveLeft(){
+    //   this.x -= 5
+    // }
+    // moveRight(){
+    //   this.x += 5
+    // }
 
     /*isTouching(obstacle) {
       return (
@@ -54,7 +87,7 @@ class Board{
   }
 
   const board = new Board()
-  const player = new Player()
+  const player = new Player(340,580)
   /*
   class Obstacle {
     constructor(x, width) {
