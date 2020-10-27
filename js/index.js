@@ -47,9 +47,9 @@ class Board{
     }
     draw(){
          //if(this.y > $canvas.height) this.y = 0
-        if(p1.grounded){
+        if(p1.jumping){
           this.y+= 0.5
-          p1.grounded = false
+          //p1.jumping = true
         }
 
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
