@@ -61,7 +61,19 @@ class Board{
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
         //ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
     }
+}
+
+class Platform {
+  constructor(){
+    this.x = this.x
+    this.y = this.y
+    this.width = this.width
+    this.height = this.height
+    this.img = new Image()
+    this.img.src = './images/P1_Plataformas.png'
   }
+}
+
 
 class Character {
   constructor(x, y) {
@@ -83,9 +95,9 @@ class Character {
     //     this.draw('./images/P1_Character.png')
     //   }
   }
-  draw(source) {
+  draw(src) {
       //TODO: limitar personaje a la derecha
-    this.img.src = source
+    this.img.src = src
     if (this.x < 0) this.x = 0
     if (this.x > $canvas.width) this.x = 0
     if(this.y > 580 && this.grounded == true){
@@ -109,7 +121,6 @@ class Character {
     this.velX *= friction
   }
   jump() {
-
     //Flappy Boy
     /*this.jumping = false
     if (this.jumps >= 5) {
@@ -120,11 +131,9 @@ class Character {
       this.velY = -this.jumpStrength
       this.jumping = true
       this.jumps++
-      console.log(this.jumps)
-      console.log(this.grounded)
-      console.log(this.jumping)
-
-      
+      // console.log(this.jumps)
+      // console.log(this.grounded)
+      // console.log(this.jumping)
     }
     /*if (!this.jumping) {
       this.jumps++
@@ -248,7 +257,9 @@ function drawPlatforms() {
     if(platform.y > $canvas.height){
       platform.y = 0
     }
-    ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
+    const platImage = new Image()
+    platImage.src = './images/P1_Plataformas.png'
+    ctx.drawImage(platImage, platform.x, platform.y, platform.width, platform.height)
     if(p1.jumping){
       platform.y+= 3.2
     }
