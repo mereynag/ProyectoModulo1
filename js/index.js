@@ -48,7 +48,7 @@ class Board{
     draw(){
          //if(this.y > $canvas.height) this.y = 0
         if(p1.jumping){
-          this.y+= 0.5
+          this.y+= 2
           //p1.jumping = true
         }
 
@@ -66,7 +66,7 @@ class Character {
     this.velX = 0
     this.velY = 0
     this.speed = 5
-    this.jumpStrength = 20
+    this.jumpStrength = 17
     this.jumps = 0
     this.jumping = false
     this.grounded = false
@@ -80,11 +80,15 @@ class Character {
       //TODO: limitar personaje a la derecha
     if (this.x < 0) this.x = 0
     if (this.x > $canvas.width) this.x = 0
-    if (this.y > 580) {
+    if(this.y > 580 && this.grounded == true){
+      this.y = $canvas.height
+    }
+    if (this.y > 580 && this.jumps == 0) {
       this.y = 580
       this.jumps = 0
-      this.jumping = false
+      this.jumping = false 
     }
+
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height) 
     //ctx.fillRect(this.x, this.y, this.width, this.height)
   }
@@ -105,6 +109,12 @@ class Character {
     if (!this.jumping) {
       this.velY = -this.jumpStrength
       this.jumping = true
+      this.jumps++
+      console.log(this.jumps)
+      console.log(this.grounded)
+      console.log(this.jumping)
+
+      
     }
     /*if (!this.jumping) {
       this.jumps++
@@ -115,29 +125,43 @@ class Character {
 
 //Platforms
 platforms.push({
-  x: 500,
-  y: 550,
+  x: 150,
+  y: 0,
   width: 100,
   height: 20
 })
 
 platforms.push({
-  x: 200,
-  y: 400,
+  x: 150,
+  y: 233.32,
   width: 100,
   height: 20
 })
 
 platforms.push({
-  x: 500,
-  y: 250,
+  x: 150,
+  y: 466.64,
   width: 100,
   height: 20
 })
 
 platforms.push({
-  x: 200,
-  y: 100,
+  x: 450,
+  y: 116.66,
+  width: 100,
+  height: 20
+})
+
+platforms.push({
+  x: 450,
+  y: 349.98,
+  width: 100,
+  height: 20
+})
+
+platforms.push({
+  x: 450,
+  y: 583.3,
   width: 100,
   height: 20
 })
@@ -146,6 +170,7 @@ const board = new Board()
 const p1 = new Character(320, 500)
 
 function update() {
+  
   clearCanvas()
   board.draw()
   p1.draw()
@@ -153,6 +178,8 @@ function update() {
   drawPlatforms()
   checkKeys()
   bounds()
+  //if(gameOver())return
+
 }
 
 function clearCanvas() {
@@ -202,7 +229,13 @@ document.onkeyup = e => {
 function drawPlatforms() {
   ctx.fillStyle = "#333333"
   platforms.forEach(platform => {
+    if(platform.y > $canvas.height){
+      platform.y = 0
+    }
     ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
+    if(p1.jumping){
+      platform.y+= 3.2
+    }
   })
 }
 
@@ -257,3 +290,11 @@ function collisionCheck(char, plat) {
   }
   return collisionDirection
 }
+
+function gameOver(){
+  if(p1.y > $canvas.height){
+    console.log('Perdiste')
+  }
+}
+
+
