@@ -33,6 +33,7 @@ const gravity = 0.98
 const friction = 0.9
 let keys = []
 let platforms = []
+let frames = 0
 
 class Board{
     constructor(){
@@ -49,8 +50,11 @@ class Board{
          //if(this.y > $canvas.height) this.y = 0
         if(p1.jumping){
           this.y+= 2
-          //p1.jumping = true
         }
+        // if (this.y = 0){
+        //   this.y = 0
+        //   //p1.jumping = true
+        // }
 
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
         //ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
@@ -170,7 +174,7 @@ const board = new Board()
 const p1 = new Character(320, 500)
 
 function update() {
-  
+  frames++
   clearCanvas()
   board.draw()
   p1.draw()
