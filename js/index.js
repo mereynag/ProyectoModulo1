@@ -77,13 +77,15 @@ class Character {
     this.jumping = false
     this.grounded = false
     this.img = new Image()
-    this.img.src = './images/P1_Character.png'
-    this.img.onload = () => {
-        this.draw()
-      }
+    // this.img2 = new Image()
+    // this.img2.src = './images/P1_CharacterAstro.png'
+    // this.img.onload = () => {
+    //     this.draw('./images/P1_Character.png')
+    //   }
   }
-  draw() {
+  draw(source) {
       //TODO: limitar personaje a la derecha
+    this.img.src = source
     if (this.x < 0) this.x = 0
     if (this.x > $canvas.width) this.x = 0
     if(this.y > 580 && this.grounded == true){
@@ -95,8 +97,10 @@ class Character {
       this.jumping = false 
     }
 
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height) 
-    //ctx.fillRect(this.x, this.y, this.width, this.height)
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    // if (board.y == -2500){
+    //   ctw.drawImage()
+    // }
   }
   changePos() {
     this.y += this.velY
@@ -179,12 +183,18 @@ function update() {
   frames++
   clearCanvas()
   board.draw()
-  p1.draw()
+  if (board.y > -2500){
+      p1.draw('./images/P1_CharacterAstro.png')
+  } else {
+      p1.draw('./images/P1_Character.png')
+  }
   p1.changePos()
   drawPlatforms()
   checkKeys()
   bounds()
-  //if(gameOver())return
+  // if (board.y == -2500){
+  //   ctx.drawImage(src = './images/P1_CharacterAstro.png', this.x, this.y, this.width, this.height)
+  // }
 
 }
 
@@ -246,7 +256,6 @@ function drawPlatforms() {
   // if (board.y == -200){
   //   return
   }
-}
 
 function bounds() {
   p1.grounded = false
