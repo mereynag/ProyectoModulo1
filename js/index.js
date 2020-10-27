@@ -233,7 +233,7 @@ document.onkeyup = e => {
 
 // -------------Plataformas y colision--------------
 function drawPlatforms() {
-  ctx.fillStyle = "#333333"
+  ctx.fillStyle = "red"
   platforms.forEach(platform => {
     if(platform.y > $canvas.height){
       platform.y = 0
@@ -243,6 +243,9 @@ function drawPlatforms() {
       platform.y+= 3.2
     }
   })
+  // if (board.y == -200){
+  //   return
+  }
 }
 
 function bounds() {
