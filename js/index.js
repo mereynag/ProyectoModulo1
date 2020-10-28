@@ -35,6 +35,7 @@ let keys = []
 let platforms = []
 let frames = 0
 let score = 0;
+let flyObjs = []
 
 class Board{
     constructor(){
@@ -74,6 +75,29 @@ class Platform {
     this.img.src = './images/P1_Plataformas.png'
   }
 }
+
+class FlyingObject{
+  constructor(y,width,height){
+    this.x = $canvas.width
+    this.y = y
+    this.width = width
+    this.height = height
+    this.img = new Image()
+    
+  }
+  draw(source){
+    this.x--
+    this.img.src = source
+    ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
+  }
+
+  /*changePos(){
+      this.x--
+    console.log(this.x)
+  }*/
+}
+
+
 
 
 class Character {
@@ -141,6 +165,13 @@ class Character {
       this.velY = -this.jumpStrength
     }*/
   }
+
+  isTouching(obj){
+    return(this.x < obj.x + obj.width &&
+    this.x + this.width > obj.x &&
+    this.y < obj.y + obj.height &&
+    this.y + this.height > obj.y)
+  }
 }
 
 //Platforms
@@ -187,11 +218,13 @@ platforms.push({
 })
 
 const board = new Board()
+const avion = new FlyingObject(400, 70, 40)
 const p1 = new Character(320, 500)
 
 function update() {
   frames++
   clearCanvas()
+  checkCollitions()
   board.draw()
   if (board.y > -2500){
       p1.draw('./images/P1_CharacterAstro.png')
@@ -203,6 +236,12 @@ function update() {
   checkKeys()
   bounds()
   printScore()
+  if(board.y > -4000 && board.y < -3000){
+    console.log('Hola')
+    avion.draw('./images/P1_Avion.png')
+  }
+  
+ 
   // if (board.y == -2500){
   //   ctx.drawImage(src = './images/P1_CharacterAstro.png', this.x, this.y, this.width, this.height)
   // }
@@ -254,7 +293,6 @@ document.onkeyup = e => {
 
 // -------------Plataformas y colision--------------
 function drawPlatforms() {
-  ctx.fillStyle = "red"
   platforms.forEach(platform => {
     if(platform.y > $canvas.height){
       platform.y = 0
@@ -336,4 +374,8 @@ function printScore() {
   ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
 }
 
-
+function checkCollitions(){
+  if(p1.isTouching(avion)){
+    alert('Perdiste')
+  }
+}
