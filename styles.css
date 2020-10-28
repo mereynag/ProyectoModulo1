@@ -2,9 +2,70 @@ body{
     background-color: #0f2a37ff;
 }
 
+#row{
+    display: flex;
+    flex-direction: row;
+}
+
+strong{
+    color: white;
+}
+
+#col1{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo{
+    width: 300px;
+    margin-left: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
 
 #game-board{
     margin-left: 50px;
+}
+
+.instrucciones{
+    color: #5d8ca3;
+    font-family: monospace;
+    text-align: center;
+    margin-left: 40px;
+    line-height: 1.5em;
+}
+
+#control{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin-left: 40px;;
+}
+
+#teclas{
+    display: flex;
+    flex-direction: row;
+}
+
+#controles{
+    width: 125px;
+    align-self: center;
+}
+
+.textocontrol1{
+    color: #5d8ca3;
+    font-family: monospace;
+    text-align: center;
+}
+
+.textocontrol2{
+    color: #5d8ca3;
+    font-family: monospace;
+    text-align: center;
+    margin-top: 50px;
 }
 
 .win{
