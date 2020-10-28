@@ -1,41 +1,21 @@
-/*const $button = document.querySelector("#start-button")
 
-function startGame(){
+  const $canvas = document.querySelector("canvas")
+  const ctx = $canvas.getContext("2d")
+  const gravity = 0.98
+  const friction = 0.9
+  let intervalId;
+  let keys = []
+  let platforms = []
+  let frames = 0
+  let score = 0;
+  let flyObjs = []
+
+  function startGame() {
     if (intervalId) return
-    intervalId = setInterval(updateGame, 1000 / 60)
+    intervalId = setInterval(update, 1000 / 60)
+  }
+  startGame()
 
-}
-
-function updateGame() {
-    if(intervalId){
-      frames++
-      checkKeys()
-      player.changePos()  
-      //clearObstacles()
-      //generateObstacles()
-      clearCanvas()
-      //checkCollitions()
-      board.draw()
-      player.draw()
-      console.log('hola')
-    }
-      
-      //drawObstacles()
-      //printScore()
-      if (!intervalId){
-          alert('game over')
-      }    
-  }*/
-
-const $canvas = document.querySelector("canvas")
-const ctx = $canvas.getContext("2d")
-const gravity = 0.98
-const friction = 0.9
-let keys = []
-let platforms = []
-let frames = 0
-let score = 0;
-let flyObjs = []
 
 class Board{
     constructor(){
@@ -219,7 +199,9 @@ const avion = new FlyingObject(400, 70, 40)
 const p1 = new Character(320, 500)
 
 function update() {
-  frames++
+
+    frames++
+  startGame()
   clearCanvas()
   checkCollitions()
   board.draw()
@@ -234,11 +216,13 @@ function update() {
   bounds()
   printScore()
   if(board.y > -4000 && board.y < -3000){
-    console.log('Hola')
     avion.draw('./images/P1_Avion.png')
   }
+  if(p1.y > $canvas.height){
+    gameOver()
+  }
   
- 
+
   // if (board.y == -2500){
   //   ctx.drawImage(src = './images/P1_CharacterAstro.png', this.x, this.y, this.width, this.height)
   // }
@@ -249,7 +233,7 @@ function clearCanvas() {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height)
 }
 
-setInterval(update, 1000 / 60)
+//let intervalID = setInterval(update, 1000 / 60)
 
 //control
 
@@ -378,14 +362,20 @@ function collisionCheck(char, plat) {
 }
 
 function gameOver(){
-  if(p1.y > $canvas.height){
-    console.log('Perdiste')
-  }
+  //if(p1.y == $canvas.height){}
+    platforms.forEach(platform =>{
+      platform.y = 0
+      board.y = 0
+    })
+    clearInterval(intervalId)
+    console.log(score)
+    printGameOver()
+
 }
 
 function printScore() {
-  //if (frames % 200 === 0 && frames > 500) score++
-  if(board.y % 76 === 0) score ++
+
+  if(board.y % 60 == 0 && p1.grounded) score++
   ctx.font = "20px Sans-serif"
   ctx.fillStyle = "black"
   ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
@@ -396,3 +386,15 @@ function checkCollitions(){
     alert('Perdiste')
   }
 }
+
+function printGameOver(){
+  ctx.fillRect(200,200,300, 300)
+  ctx.font = '50px sans-serif'
+  ctx.fillStyle = 'red'
+  ctx.fillText(`Game Over`,$canvas.width/2 - 150, $canvas.width/3)
+  ctx.font = '40px sans-serif'
+  ctx.fillStyle = 'white'
+  ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
+}
+
+
