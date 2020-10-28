@@ -34,6 +34,7 @@ const friction = 0.9
 let keys = []
 let platforms = []
 let frames = 0
+let score = 0;
 
 class Board{
     constructor(){
@@ -201,6 +202,7 @@ function update() {
   drawPlatforms()
   checkKeys()
   bounds()
+  printScore()
   // if (board.y == -2500){
   //   ctx.drawImage(src = './images/P1_CharacterAstro.png', this.x, this.y, this.width, this.height)
   // }
@@ -324,6 +326,14 @@ function gameOver(){
   if(p1.y > $canvas.height){
     console.log('Perdiste')
   }
+}
+
+function printScore() {
+  //if (frames % 200 === 0 && frames > 500) score++
+  if(board.y % 76 === 0) score ++
+  ctx.font = "20px Sans-serif"
+  ctx.fillStyle = "black"
+  ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
 }
 
 
