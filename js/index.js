@@ -40,7 +40,7 @@ let flyObjs = []
 class Board{
     constructor(){
     this.x = 0
-    this.y = -1000
+    this.y = -4300
     this.width = $canvas.width
     this.height = 5000
     this.img = new Image()
