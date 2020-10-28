@@ -1,3 +1,6 @@
-canvas {
-    background-position: top;
+
+.win-or-loose{
+    width: 300 ;
+    height : 300 ;
+    background-color:red;
 }

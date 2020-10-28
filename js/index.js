@@ -40,7 +40,7 @@ let flyObjs = []
 class Board{
     constructor(){
     this.x = 0
-    this.y = -4300
+    this.y = -1000
     this.width = $canvas.width
     this.height = 5000
     this.img = new Image()
@@ -96,9 +96,6 @@ class FlyingObject{
     console.log(this.x)
   }*/
 }
-
-
-
 
 class Character {
   constructor(x, y) {
@@ -294,15 +291,35 @@ document.onkeyup = e => {
 // -------------Plataformas y colision--------------
 function drawPlatforms() {
   platforms.forEach(platform => {
-    if(platform.y > $canvas.height){
-      platform.y = 0
+    if(board.y < 0){
+      if(platform.y > $canvas.height){
+        platform.y = 0
+      }
     }
+      
+    /*if (board.y == 0){
+      platform.y = $canvas.height
+    }*/
     const platImage = new Image()
     platImage.src = './images/P1_Plataformas.png'
     ctx.drawImage(platImage, platform.x, platform.y, platform.width, platform.height)
-    if(p1.jumping){
-      platform.y+= 3.2
+    if(board.y < 0){
+      if(p1.jumping){
+        platform.y+= 3.2
+      }
     }
+    
+
+    /*if(platform.y >= -4300 && platform.y < 500){
+      if(p1.jumping){
+        platform.y+= 3.2
+      }
+    }else if(platform.y <= 500){
+      if(p1.jumping){
+        platform.y = 0
+      }*/
+    
+
   })
   // if (board.y == -200){
   //   return
