@@ -203,7 +203,7 @@ function update() {
     frames++
   startGame()
   clearCanvas()
-  checkCollitions()
+  
   board.draw()
   if (board.y > -2500){
       p1.draw('./images/P1_CharacterAstro.png')
@@ -221,12 +221,10 @@ function update() {
   if(p1.y > $canvas.height){
     gameOver()
   }
-  
-
-  // if (board.y == -2500){
-  //   ctx.drawImage(src = './images/P1_CharacterAstro.png', this.x, this.y, this.width, this.height)
-  // }
-
+  checkCollitions()
+  /*if(p1.isTouching(avion)){
+    gameOver()
+  }*/
 }
 
 function clearCanvas() {
@@ -363,10 +361,10 @@ function collisionCheck(char, plat) {
 
 function gameOver(){
   //if(p1.y == $canvas.height){}
-    platforms.forEach(platform =>{
+    /*platforms.forEach(platform =>{
       platform.y = 0
       board.y = 0
-    })
+    })*/
     clearInterval(intervalId)
     console.log(score)
     printGameOver()
@@ -375,7 +373,7 @@ function gameOver(){
 
 function printScore() {
 
-  if(board.y % 60 == 0 && p1.grounded) score++
+  if(board.y % 60 == 0 && p1.jumping) score++
   ctx.font = "20px Sans-serif"
   ctx.fillStyle = "black"
   ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
@@ -383,7 +381,9 @@ function printScore() {
 
 function checkCollitions(){
   if(p1.isTouching(avion)){
-    alert('Perdiste')
+    gameOver()
+    //clearInterval(intervalId) 
+    console.log('Adios')
   }
 }
 
