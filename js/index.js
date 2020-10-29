@@ -20,7 +20,7 @@
 class Board{
     constructor(){
     this.x = 0
-    this.y = -4300
+    this.y = -500
     this.width = $canvas.width
     this.height = 5000
     this.img = new Image()
@@ -206,7 +206,6 @@ function update() {
     frames++
   startGame()
   clearCanvas()
-  
   board.draw()
   if (board.y > -1500){
       p1.draw('./images/P1_CharacterAstro.png')
@@ -222,10 +221,14 @@ function update() {
   /*if(board.y > -4000 && board.y < -3000){
     avion.draw('./images/P1_Avion.png')
   }*/
+  /*if(p1.y < -5){
+    console.log('Ganaste')
+  }*/
   if(p1.y > $canvas.height){
     gameOver()
   }
   checkCollitions()
+   youWin()
   /*if(p1.isTouching(avion)){
     gameOver()
   }*/
@@ -413,6 +416,23 @@ function drawObjects(){
   }
   if(board.y > -500){
     cometa.draw('./images/P1_Comet.png')
+  }
+}
+
+function printYouWin(){
+  ctx.fillRect(200,200,300, 300)
+  ctx.font = '50px sans-serif'
+  ctx.fillStyle = 'red'
+  ctx.fillText(`You Won`,$canvas.width/2 - 150, $canvas.width/3)
+  ctx.font = '40px sans-serif'
+  ctx.fillStyle = 'white'
+  ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
+}
+
+function youWin(){
+  if(p1.y < -5){
+    clearInterval(intervalId)
+    printYouWin()
   }
 }
 
