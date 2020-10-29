@@ -103,7 +103,7 @@ class Character {
     this.speed = 5
     this.jumpStrength = 17
     this.jumps = 0
-    this.jumping = true
+    this.jumping = false
     this.grounded = false
     this.img = new Image()
     // this.img2 = new Image()
