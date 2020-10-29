@@ -71,6 +71,21 @@ class FlyingObject{
     ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
   }
 
+  // class FlyingObject2{
+  //   constructor(y,width,height){
+  //     this.x = 0-this.width
+  //     this.y = y
+  //     this.width = width
+  //     this.height = height
+  //     this.img = new Image()
+      
+  //   }
+  //   draw(source){
+  //     this.x+=2
+  //     this.img.src = source
+  //     ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
+  //   }
+
   /*changePos(){
       this.x--
     console.log(this.x)
@@ -110,7 +125,6 @@ class Character {
       this.jumps = 0
       this.jumping = false 
     }
-
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     // if (board.y == -2500){
     //   ctw.drawImage()
@@ -150,6 +164,22 @@ class Character {
     this.y + this.height > obj.y)
   }
 }
+
+// class GameScore {
+//   constructor (){
+//     this.x = 200
+//     this.y = 200
+//     this.height = 300
+//     this.width = 300
+//     this.img = new Image()
+//   }
+
+//   draw(src){
+//     this.img.src = src
+//     ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+//   }
+
+// }
 
 //Platforms
 platforms.push({
@@ -195,23 +225,33 @@ platforms.push({
 })
 
 const board = new Board()
-const avion = new FlyingObject(400, 70, 40)
-const meteorito = new FlyingObject(400,70,40)
-const bird = new FlyingObject(400,70,40)
-const cometa = new FlyingObject(400,70,40)
+const avion = new FlyingObject(400, 110, 50)
+const meteorito = new FlyingObject(400,70,70)
+const bird = new FlyingObject(400,75,50)
+const cometa = new FlyingObject(400,120,90)
 const p1 = new Character(320, 500)
+// const youLoose = new GameScore()
+// const youWinner = new GameScore()
+
 
 function update() {
-
-    frames++
+  frames++
   startGame()
   clearCanvas()
   board.draw()
   if (board.y > -1500){
       p1.draw('./images/P1_CharacterAstro.png')
-  } else {
-      p1.draw('./images/P1_Character.png')
+  } else if (board.y < -1500 && keys[37]) {
+      p1.draw('./images/P1_Character2.png')
+  } else if (board.y < -1500){
+      p1.draw('/images/P1_Character.png')
   }
+  // if(p1.x > 350){
+  //     p1.draw('/images/P1_Character2.png')
+  //   } else {
+  //     p1.draw('/images/P1_Character.png')
+  //   }
+  // })
   p1.changePos()
   drawPlatforms()
   checkKeys()
@@ -224,7 +264,7 @@ function update() {
   /*if(p1.y < -5){
     console.log('Ganaste')
   }*/
-  if(p1.y > $canvas.height +1000){
+  if(p1.y > $canvas.height + 1500){
     gameOver()
   }
   checkCollitions()
@@ -248,9 +288,19 @@ function checkKeys() {
     }
     if (keys[37]) {
       p1.velX--
+      // if (board.y < 1500){
+      //   p1.draw('./images/P1_Character2.png')}
+      // else {
+      //   p1.draw('/images/P1_CharacterAstro2.png')
+      // }
     }
     if (keys[39]) {
       p1.velX++
+      // if (board.y < 1500){
+      //   p1.draw('./images/P1_Character.png')}
+      // else {
+      //   p1.draw('/images/P1_CharacterAstro.png')
+      // }
     }
   /*if (keys["ArrowUp"]) {
     p1.jump()
@@ -381,9 +431,9 @@ function gameOver(){
 function printScore() {
 
   if(board.y % 140 == 0 && p1.jumping) score++
-  ctx.font = "20px Sans-serif"
-  ctx.fillStyle = "black"
-  ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
+  ctx.font = "20px monospace"
+  ctx.fillStyle = "white"
+  ctx.fillText(`Score: ${score}`, $canvas.width - 120, 40)
 }
 
 function checkCollitions(){
@@ -395,38 +445,50 @@ function checkCollitions(){
 }
 
 function printGameOver(){
+  ctx.fillStyle = '#0f2a37ff'
   ctx.fillRect(200,200,300, 300)
-  ctx.font = '50px sans-serif'
+  // ctx.fillStyle = '#0f2a37ff'
+  // ctx.fillRect(300,300,250, 250)
+  ctx.font = '45px monospace'
   ctx.fillStyle = 'red'
-  ctx.fillText(`Game Over`,$canvas.width/2 - 150, $canvas.width/3)
-  ctx.font = '40px sans-serif'
+  ctx.fillText(`GAME OVER`,230, 325)
+  ctx.font = '20px monospace'
   ctx.fillStyle = 'white'
-  ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
+  ctx.fillText(`Your final score: ${score}`, 235, 400)
+  // youLoose.draw('./images/P1_GameOver.png')
 }
 
 function drawObjects(){
-  if(board.y > -4200 ){
+  if(board.y > -4200 && board.y < -3000){
     bird.draw('./images/P1_Bird.png')
   }
-  if(board.y > -3000 ){
+  if(board.y > -3000 && board.y < -2000){
     avion.draw('./images/P1_Avion.png')
   }
-  if(board.y > -1000){
+  if(board.y > -1700 && board.y < -300){
     meteorito.draw('./images/P1_Meteor.png')
   }
-  if(board.y > -500){
+  if(board.y > -500 && board.y < 0){
     cometa.draw('./images/P1_Comet.png')
   }
 }
 
 function printYouWin(){
+  // ctx.fillRect(200,200,300, 300)
+  // ctx.font = '50px sans-serif'
+  // ctx.fillStyle = 'red'
+  // ctx.fillText(`You Won`,$canvas.width/2 - 150, $canvas.width/3)
+  // ctx.font = '40px sans-serif'
+  // ctx.fillStyle = 'white'
+  // ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
+  ctx.fillStyle = 'white';
   ctx.fillRect(200,200,300, 300)
-  ctx.font = '50px sans-serif'
+  ctx.font = '45px monospace'
   ctx.fillStyle = 'red'
-  ctx.fillText(`You Won`,$canvas.width/2 - 150, $canvas.width/3)
-  ctx.font = '40px sans-serif'
-  ctx.fillStyle = 'white'
-  ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
+  ctx.fillText(`YOU WIN!!`,230, 325)
+  ctx.font = '20px monospace'
+  ctx.fillStyle = '#0f2a37ff'
+  ctx.fillText(`Your final score: ${score}`, 225, 400)
 }
 
 function youWin(){
