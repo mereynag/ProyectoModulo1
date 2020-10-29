@@ -20,7 +20,7 @@
 class Board{
     constructor(){
     this.x = 0
-    this.y = -500
+    this.y = -4300
     this.width = $canvas.width
     this.height = 5000
     this.img = new Image()
@@ -224,7 +224,7 @@ function update() {
   /*if(p1.y < -5){
     console.log('Ganaste')
   }*/
-  if(p1.y > $canvas.height){
+  if(p1.y > $canvas.height +1000){
     gameOver()
   }
   checkCollitions()
