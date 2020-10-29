@@ -232,9 +232,9 @@ platforms.push({
 
 const board = new Board()
 const avion = new FlyingObject(400, 110, 50)
-const meteorito = new FlyingObject(400,70,70)
+const meteorito = new FlyingObject(350,70,70)
 const bird = new FlyingObject(400,75,50)
-const cometa = new FlyingObject(400,120,90)
+const cometa = new FlyingObject(350,120,90)
 const p1 = new Character(320, 500)
 // const youLoose = new GameScore()
 // const youWinner = new GameScore()
@@ -472,7 +472,7 @@ function drawObjects(){
   if(board.y > -3000 && board.y < -2000){
     avion.draw('./images/P1_Avion.png')
   }
-  if(board.y > -1400 && board.y < -300){
+  if(board.y > -1000 && board.y < -500){
     meteorito.draw('./images/P1_Meteor.png')
   }
   if(board.y > -500 && board.y < 0){
