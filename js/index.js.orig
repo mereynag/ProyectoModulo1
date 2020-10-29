@@ -1,5 +1,4 @@
 
-  window.onload = () => {
   const $canvas = document.querySelector("canvas")
   const ctx = $canvas.getContext("2d")
   const gravity = 0.98
@@ -126,8 +125,12 @@ class Character {
       this.jumps = 0
       this.jumping = false 
     }
+<<<<<<< HEAD
 
     ctx.drawImage(this.img, this.x,this.y, this.width, this.height)
+=======
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+>>>>>>> 78a6c654020e36c606768f1dbd6f3ccb12ae1f51
     // if (board.y == -2500){
     //   ctw.drawImage()
     // }
@@ -270,7 +273,11 @@ function update() {
   /*if(p1.y < -5){
     console.log('Ganaste')
   }*/
+<<<<<<< HEAD
   if(p1.y > $canvas.height +1200){
+=======
+  if(p1.y > $canvas.height + 1500){
+>>>>>>> 78a6c654020e36c606768f1dbd6f3ccb12ae1f51
     gameOver()
   }
   checkCollitions()
@@ -436,11 +443,17 @@ function gameOver(){
 
 function printScore() {
 
+<<<<<<< HEAD
   if(board.y % 175 == 0 && p1.jumping /*&& board.y > -4300 && board.y < -10*/) score++
+  ctx.font = "20px Sans-serif"
+  ctx.fillStyle = "black"
+  ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
+=======
+  if(board.y % 140 == 0 && p1.jumping) score++
   ctx.font = "20px monospace"
   ctx.fillStyle = "white"
-  ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
-
+  ctx.fillText(`Score: ${score}`, $canvas.width - 120, 40)
+>>>>>>> 78a6c654020e36c606768f1dbd6f3ccb12ae1f51
 }
 
 function checkCollitions(){
@@ -504,4 +517,4 @@ function youWin(){
     printYouWin()
   }
 }
-}
+
