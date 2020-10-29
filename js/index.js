@@ -31,7 +31,7 @@ class Board{
     draw(){
          //if(this.y > $canvas.height) this.y = 0
         if(p1.jumping && this.y < 0){
-          this.y+= 2
+          this.y+= 5
         } else if (p1.jumping && this.y == 0){
           this.y == 0
         }
@@ -66,7 +66,7 @@ class FlyingObject{
     
   }
   draw(source){
-    this.x--
+    this.x-=2
     this.img.src = source
     ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
   }
@@ -196,6 +196,9 @@ platforms.push({
 
 const board = new Board()
 const avion = new FlyingObject(400, 70, 40)
+const meteorito = new FlyingObject(400,70,40)
+const bird = new FlyingObject(400,70,40)
+const cometa = new FlyingObject(400,70,40)
 const p1 = new Character(320, 500)
 
 function update() {
@@ -205,7 +208,7 @@ function update() {
   clearCanvas()
   
   board.draw()
-  if (board.y > -2500){
+  if (board.y > -1500){
       p1.draw('./images/P1_CharacterAstro.png')
   } else {
       p1.draw('./images/P1_Character.png')
@@ -215,9 +218,10 @@ function update() {
   checkKeys()
   bounds()
   printScore()
-  if(board.y > -4000 && board.y < -3000){
+  drawObjects()
+  /*if(board.y > -4000 && board.y < -3000){
     avion.draw('./images/P1_Avion.png')
-  }
+  }*/
   if(p1.y > $canvas.height){
     gameOver()
   }
@@ -287,7 +291,7 @@ function drawPlatforms() {
     ctx.drawImage(platImage, platform.x, platform.y, platform.width, platform.height)
     if(board.y < 0){
       if(p1.jumping){
-        platform.y+= 3.2
+        platform.y+=3.2
       }
     }
     
@@ -373,14 +377,14 @@ function gameOver(){
 
 function printScore() {
 
-  if(board.y % 60 == 0 && p1.jumping) score++
+  if(board.y % 140 == 0 && p1.jumping) score++
   ctx.font = "20px Sans-serif"
   ctx.fillStyle = "black"
   ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
 }
 
 function checkCollitions(){
-  if(p1.isTouching(avion)){
+  if(p1.isTouching(avion) || p1.isTouching(bird)|| p1.isTouching(cometa) || p1.isTouching(meteorito)){
     gameOver()
     //clearInterval(intervalId) 
     console.log('Adios')
@@ -397,4 +401,18 @@ function printGameOver(){
   ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
 }
 
+function drawObjects(){
+  if(board.y > -4200 ){
+    bird.draw('./images/P1_Bird.png')
+  }
+  if(board.y > -3000 ){
+    avion.draw('./images/P1_Avion.png')
+  }
+  if(board.y > -1000){
+    meteorito.draw('./images/P1_Meteor.png')
+  }
+  if(board.y > -500){
+    cometa.draw('./images/P1_Comet.png')
+  }
+}
 
