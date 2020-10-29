@@ -247,9 +247,9 @@ function update() {
   board.draw()
   if (board.y > -1500){
       p1.draw('./images/P1_CharacterAstro.png')
-  } else if (board.y < -1500 && keys[37]) {
+  }/* else if (board.y < -1500 && keys[37]) {
       p1.draw('./images/P1_Character2.png')
-  } else if (board.y < -1500){
+  } */else  (board.y < -1500){
       p1.draw('/images/P1_Character.png')
   }
   // if(p1.x > 350){
@@ -472,7 +472,7 @@ function drawObjects(){
   if(board.y > -3000 && board.y < -2000){
     avion.draw('./images/P1_Avion.png')
   }
-  if(board.y > -1700 && board.y < -300){
+  if(board.y > -1400 && board.y < -300){
     meteorito.draw('./images/P1_Meteor.png')
   }
   if(board.y > -500 && board.y < 0){
