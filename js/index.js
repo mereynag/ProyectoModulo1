@@ -249,7 +249,7 @@ function update() {
       p1.draw('./images/P1_CharacterAstro.png')
   }/* else if (board.y < -1500 && keys[37]) {
       p1.draw('./images/P1_Character2.png')
-  } */else  (board.y < -1500){
+  } */else /*(board.y < -1500)*/{
       p1.draw('/images/P1_Character.png')
   }
   // if(p1.x > 350){
