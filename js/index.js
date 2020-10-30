@@ -102,7 +102,7 @@ class Character {
     this.velX = 0
     this.velY = 0
     this.speed = 5
-    this.jumpStrength = 17
+    this.jumpStrength = 17.5
     this.jumps = 0
     this.jumping = false
     this.grounded = false
