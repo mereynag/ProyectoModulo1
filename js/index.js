@@ -7,9 +7,7 @@
   let intervalId;
   let keys = []
   let platforms = []
-  let frames = 0
   let score = 0;
-  let flyObjs = []
 
   function startGame() {
     if (intervalId) return
@@ -30,19 +28,13 @@ class Board{
         this.draw()}
     }
     draw(){
-         //if(this.y > $canvas.height) this.y = 0
         if(p1.jumping && this.y < 0){
           this.y+= 5
         } else if (p1.jumping && this.y == 0){
           this.y == 0
         }
-        // if (this.y = 0){
-        //   this.y = 0
-        //   //p1.jumping = true
-        // }
 
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-        //ctx.drawImage(this.img, this.x, this.y - $canvas.height, this.width, this.height)
     }
 }
 
@@ -71,26 +63,6 @@ class FlyingObject{
     this.img.src = source
     ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
   }
-
-  // class FlyingObject2{
-  //   constructor(y,width,height){
-  //     this.x = 0-this.width
-  //     this.y = y
-  //     this.width = width
-  //     this.height = height
-  //     this.img = new Image()
-      
-  //   }
-  //   draw(source){
-  //     this.x+=2
-  //     this.img.src = source
-  //     ctx.drawImage(this.img,this.x, this.y, this.width, this.height)
-  //   }
-
-  /*changePos(){
-      this.x--
-    console.log(this.x)
-  }*/
 }
 
 class Character {
@@ -107,14 +79,8 @@ class Character {
     this.jumping = false
     this.grounded = false
     this.img = new Image()
-    // this.img2 = new Image()
-    // this.img2.src = './images/P1_CharacterAstro.png'
-    // this.img.onload = () => {
-    //     this.draw('./images/P1_Character.png')
-    //   }
   }
   draw(src) {
-      //TODO: limitar personaje a la derecha
     this.img.src = src
     if (this.x < 0) this.x = 0
     if (this.x > $canvas.width) this.x = 0
@@ -128,39 +94,19 @@ class Character {
     }
 
     ctx.drawImage(this.img, this.x,this.y, this.width, this.height)
-    // if (board.y == -2500){
-    //   ctw.drawImage()
-    // }
   }
   changePos() {
-   // if(p1.y > 580){
       this.y += this.velY
       this.velY += gravity
       this.x += this.velX
       this.velX *= friction
-    //}
-
   }
   jump() {
-    //Flappy Boy
-    /*this.jumping = false
-    if (this.jumps >= 5) {
-      this.jumping = true
-      
-    }*/
-    
     if (!this.jumping) {
       this.velY = -this.jumpStrength
       this.jumping = true
       this.jumps++
-      // console.log(this.jumps)
-      // console.log(this.grounded)
-      // console.log(this.jumping)
     }
-    /*if (!this.jumping) {
-      this.jumps++
-      this.velY = -this.jumpStrength
-    }*/
   }
 
   isTouching(obj){
@@ -171,23 +117,7 @@ class Character {
   }
 }
 
-// class GameScore {
-//   constructor (){
-//     this.x = 200
-//     this.y = 200
-//     this.height = 300
-//     this.width = 300
-//     this.img = new Image()
-//   }
-
-//   draw(src){
-//     this.img.src = src
-//     ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-//   }
-
-// }
-
-//Platforms
+//-------Platforms-------
 platforms.push({
   x: 150,
   y: 0,
@@ -236,9 +166,6 @@ const meteorito = new FlyingObject(350,70,70)
 const bird = new FlyingObject(400,75,50)
 const cometa = new FlyingObject(350,120,90)
 const p1 = new Character(320, 500)
-// const youLoose = new GameScore()
-// const youWinner = new GameScore()
-
 
 function update() {
   frames++
@@ -247,76 +174,37 @@ function update() {
   board.draw()
   if (board.y > -1500){
       p1.draw('./images/P1_CharacterAstro.png')
-  }/* else if (board.y < -1500 && keys[37]) {
-      p1.draw('./images/P1_Character2.png')
-  } */else /*(board.y < -1500)*/{
+  }else{
       p1.draw('/images/P1_Character.png')
   }
-  // if(p1.x > 350){
-  //     p1.draw('/images/P1_Character2.png')
-  //   } else {
-  //     p1.draw('/images/P1_Character.png')
-  //   }
-  // })
   p1.changePos()
   drawPlatforms()
   checkKeys()
   bounds()
   printScore()
   drawObjects()
-  /*if(board.y > -4000 && board.y < -3000){
-    avion.draw('./images/P1_Avion.png')
-  }*/
-  /*if(p1.y < -5){
-    console.log('Ganaste')
-  }*/
   if(p1.y > $canvas.height +1200){
     gameOver()
   }
   checkCollitions()
    youWin()
-  /*if(p1.isTouching(avion)){
-    gameOver()
-  }*/
 }
 
 function clearCanvas() {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height)
 }
 
-//let intervalID = setInterval(update, 1000 / 60)
-
-//control
-
+//-------------Control--------------
 function checkKeys() {
     if (keys[32] || keys[38]) {
       p1.jump()
     }
     if (keys[37]) {
       p1.velX--
-      // if (board.y < 1500){
-      //   p1.draw('./images/P1_Character2.png')}
-      // else {
-      //   p1.draw('/images/P1_CharacterAstro2.png')
-      // }
     }
     if (keys[39]) {
       p1.velX++
-      // if (board.y < 1500){
-      //   p1.draw('./images/P1_Character.png')}
-      // else {
-      //   p1.draw('/images/P1_CharacterAstro.png')
-      // }
     }
-  /*if (keys["ArrowUp"]) {
-    p1.jump()
-  }
-  if (keys["ArrowLeft"]) {
-    p1.velX--
-  }
-  if (keys["ArrowRight"]) {
-    p1.velX++
-  }*/
 }
 document.addEventListener("keydown", event => {
   keys[event.keyCode] = true
@@ -324,14 +212,6 @@ document.addEventListener("keydown", event => {
 document.addEventListener("keyup", event => {
   keys[event.keyCode] = false
 })
-/*
-document.onkeydown = e => {
-  keys[e.key] = true
-}
-
-document.onkeyup = e => {
-  keys[e.key] = false
-}*/
 
 // -------------Plataformas y colision--------------
 function drawPlatforms() {
@@ -341,10 +221,6 @@ function drawPlatforms() {
         platform.y = 0
       }
     }
-      
-    /*if (board.y == 0){
-      platform.y = $canvas.height
-    }*/
     const platImage = new Image()
     platImage.src = './images/P1_Plataformas.png'
     ctx.drawImage(platImage, platform.x, platform.y, platform.width, platform.height)
@@ -353,22 +229,7 @@ function drawPlatforms() {
         platform.y+=3.2
       }
     }
-    
-
-    /*if(platform.y >= -4300 && platform.y < 500){
-      if(p1.jumping){
-        platform.y+= 3.2
-      }
-    }else if(platform.y <= 500){
-      if(p1.jumping){
-        platform.y = 0
-      }*/
-    
-
-  })
-  // if (board.y == -200){
-  //   return
-  }
+  })}
 
 function bounds() {
   p1.grounded = false
@@ -388,7 +249,7 @@ function bounds() {
     p1.velY = 0
   }
 }
-// Colision para plataformas
+//-----------Colision para plataformas-----------
 function collisionCheck(char, plat) {
   var vectorX = char.x + char.width / 2 - (plat.x + plat.width / 2)
   var vectorY = char.y + char.height / 2 - (plat.y + plat.height / 2)
@@ -423,11 +284,6 @@ function collisionCheck(char, plat) {
 }
 
 function gameOver(){
-  //if(p1.y == $canvas.height){}
-    /*platforms.forEach(platform =>{
-      platform.y = 0
-      board.y = 0
-    })*/
     clearInterval(intervalId)
     console.log(score)
     printGameOver()
@@ -436,7 +292,7 @@ function gameOver(){
 
 function printScore() {
 
-  if(board.y % 175 == 0 && p1.jumping /*&& board.y > -4300 && board.y < -10*/) score++
+  if(board.y % 175 == 0 && p1.jumping) score++
   ctx.font = "20px monospace"
   ctx.fillStyle = "white"
   ctx.fillText(`Score: ${score}`, $canvas.width - 100, 30)
@@ -446,7 +302,6 @@ function printScore() {
 function checkCollitions(){
   if(p1.isTouching(avion) || p1.isTouching(bird)|| p1.isTouching(cometa) || p1.isTouching(meteorito)){
     gameOver()
-    //clearInterval(intervalId) 
     console.log('Adios')
   }
 }
@@ -454,15 +309,12 @@ function checkCollitions(){
 function printGameOver(){
   ctx.fillStyle = '#0f2a37ff'
   ctx.fillRect(200,200,300, 300)
-  // ctx.fillStyle = '#0f2a37ff'
-  // ctx.fillRect(300,300,250, 250)
   ctx.font = '45px monospace'
   ctx.fillStyle = 'red'
   ctx.fillText(`GAME OVER`,230, 325)
   ctx.font = '20px monospace'
   ctx.fillStyle = 'white'
   ctx.fillText(`Your final score: ${score}`, 235, 400)
-  // youLoose.draw('./images/P1_GameOver.png')
 }
 
 function drawObjects(){
@@ -481,13 +333,6 @@ function drawObjects(){
 }
 
 function printYouWin(){
-  // ctx.fillRect(200,200,300, 300)
-  // ctx.font = '50px sans-serif'
-  // ctx.fillStyle = 'red'
-  // ctx.fillText(`You Won`,$canvas.width/2 - 150, $canvas.width/3)
-  // ctx.font = '40px sans-serif'
-  // ctx.fillStyle = 'white'
-  // ctx.fillText(`Your final score: ${score}`, $canvas.width/2 -150, $canvas.width/3 + 100)
   ctx.fillStyle = 'white';
   ctx.fillRect(200,200,300, 300)
   ctx.font = '45px monospace'
